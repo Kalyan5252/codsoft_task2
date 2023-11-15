@@ -1,0 +1,49 @@
+mixin taskCard(task)
+  .task__card(class=`${(new Date(task.date)) < (new Date())?'fail' : "worked"}`)
+    h3.task_card_detail
+      | Project Name: 
+      span= `${task.project.name}`
+    h3.task_card_detail
+      | Task Name:  
+      span= `${task.name}`
+    h3.task_card_detail
+      | Submit Date:  
+      span= `${new Date(task.date).getDate()}/${new Date(task.date).getMonth()+1}/${new Date(task.date).getFullYear()}`
+    .task__status
+
+mixin projectCard(project)
+  .task__card(class=`${(new Date(project.date)) < (new Date())?'fail' : "worked"}`)
+    h3.task_card_detail
+      | Project Name: 
+      span= `${project.name}`
+    h3.task_card_detail
+      | Total Tasks:  
+      span= `${project.tasks.length}`
+    h3.task_card_detail
+      | Submit Date:  
+      span= `${new Date(project.date).getDate()}/${new Date(project.date).getMonth()+1}/${new Date(project.date).getFullYear()}`
+    .task__status
+
+mixin alltasks(task)
+  .task__card
+    h3.task_card_detail
+      | Project Name: 
+      span= `${task.project.name}`
+    h3.task_card_detail
+      | Task Name:  
+      span= `${task.name}`
+    h3.task_card_detail
+      | Submit Date:  
+      span= `${new Date(task.date).getDate()}/${new Date(task.date).getMonth()+1}/${new Date(task.date).getFullYear()}`
+
+mixin allprojects(project)
+  .task__card
+    h3.task_card_detail
+      | Project Name: 
+      span= `${project.name}`
+    h3.task_card_detail
+      | Total Tasks:  
+      span= `${project.tasks.length}`
+    h3.task_card_detail
+      | Submit Date:  
+      span= `${new Date(project.date).getDate()}/${new Date(project.date).getMonth()+1}/${new Date(project.date).getFullYear()}`

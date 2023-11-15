@@ -1,0 +1,31 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  link(href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css', rel='stylesheet')
+  link(rel='stylesheet', type='text/css', href='/css/style.css')
+  title PMT| New Account
+  link(rel="shortcut icon" type="image/png" href="/images/icon.png")
+body
+  .login
+    .login__page
+      h2.heading-primary.project_heading PROJECT MANAGEMENT TOOL
+      .login_data
+        .signup__form
+          
+          h2.heading-primary.login_heading Create Employee Account
+          form.form.form--login
+            .form__group
+              label.form__label(for='name') Name
+              input#name.form__input(type='text', placeholder='Your Name', required='required')
+            .form__group
+              label.form__label(for='email') Email address
+              input#email.form__input(type='email', placeholder='name@example.com', required='required')
+            .form__group
+              label.form__label(for='support') Password
+              textarea#support.form__textarea(cols='50', rows='5')
+            .form__submit
+              button.btn.btn--green(onclick="location.reload()") Submit
+      .login__image
+        img#login__image(src='/images/ui_bg.png', alt='background')
+  script(src="/scripts/bundle.js")

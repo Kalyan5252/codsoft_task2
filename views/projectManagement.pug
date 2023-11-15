@@ -1,0 +1,198 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  title #{title}
+  link(href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css', rel='stylesheet')
+  link(rel='stylesheet', type='text/css', href='/css/style.css')
+.sidebar
+  a.logo(href='#')
+    i.bx.bxl-product-hunt
+    .logo_name PMT
+  ul.side_menu
+    li
+      a(href='/profile')
+        i.bx.bxs-user
+        | Profile
+    li
+      a(href='/dashboard')
+        i.bx.bxs-dashboard
+        | Dashboard
+    if user.role == 'manager'
+      li.active
+        a(href='/projectmanagement')
+          i.bx.bx-shape-square
+          | Project Management
+    if user.role == 'manager'
+      li
+        a(href='#')
+          i.bx.bxs-analyse
+          | Project Analysis
+    if user.role == 'manager'
+      li
+        a(href='/userManagement')
+          i.bx.bxs-user-rectangle
+          | User Management
+    if user.role == 'manager'
+      li
+        a(href='/tasks')
+          i.bx.bx-task
+          | Projects
+    else
+      li
+        a(href='/tasks')
+          i.bx.bx-task
+          | Tasks
+    li
+      a(href='#')
+        i.bx.bxs-conversation
+        | Discussion
+    li
+      a(href='/support')
+        i.bx.bx-support
+        | Support
+    li
+      a.logout(href='/logout')
+        i.bx.bx-log-out-circle
+        | Logout
+#nav.content
+  nav
+    i.bx.bx-menu.left
+    h3.pro_head Project Management Tool
+    .right
+      h3.user_name=user.name
+      a.profile(href='#')
+        img(src=`/images/users/${user.photo}`)
+main
+  .management
+    #scrollableContainer.container
+      .project_menu(style='height: fit-content; display: flex; align-items: center')
+        label(for='project') Project:
+        select#project.projectSelect.selectOpt(style='box-shadow: 0 0 5px rgba(0, 0, 0, 0.15)')
+          for prj in manager.projects 
+            if prj.name === project.name
+              option(value=`${prj.id}` selected) #{prj.name}
+            else
+              option(value=`${prj.id}` ) #{prj.name}
+          //- option(value='pr1') Project 1
+          //- option(value='pr2', selected='') Project 2
+          //- option(value='pr3') Project 3
+          //- option(value='pr4') Project 4
+      #manageContent.manageContent
+        if(project.tasks)
+          for task,i in project.tasks
+            .tasks__holder
+              h2.task__no=`Task ${i+1}`
+              .task__manag.success.task__tohover
+                h3.task_card_detail
+                  | Project Name: 
+                  span= project.name
+                h3.task_card_detail
+                  | Task Name: 
+                  span= task.name
+                h3.task_card_detail
+                  | Submit Date: 
+                  span= `${new Date(task.date).getDate()}/${new Date(task.date).getMonth()+1}/${new Date(task.date).getFullYear()}`
+                //- h3.task_card_detail
+                //-   | Employee: 
+                //-   span #{task.user.name.charAt(0).toUpperCase() + task.user.name.slice(1)}
+                h3.task_card_detail
+                  | Status: 
+                  span= task.status
+              .task__manag.success.task__hover.hidden
+                .task_card_img
+                  img#profile__data_dp.form_user-detail(src=`/images/users/${task.user.photo}`)
+                h3.task_card_detail
+                  | Employee: 
+                  span #{task.user.name.charAt(0).toUpperCase() + task.user.name.slice(1)}
+                h3.task_card_detail
+                  | Email: 
+                  span= task.user.email
+                h3.task_card_detail
+                  | Department: 
+                  span= task.user.department
+
+    .create_task
+      button.create_btn
+        i.bx.bx-plus
+        | Create New Task
+      .new_task_data.hidden
+        .form_data
+          label.form_label(for='task') Task
+          input#task.form_input(type='text')
+        .form_data
+          label.form_label(for='user') User
+          // <input type="text" id="user" class="form_input" />
+          select#user.selectOpt(name='user')
+            for usr in userslist 
+              option(value=`${usr.id}`) #{usr.name},#{usr.department}
+            //- option(value='user1') User 1
+            //- option(value='user2') User 2
+            //- option(value='user3', selected='') User 3
+            //- option(value='user4') User 4
+        .form_data
+          label.form_label(for='department') Department
+          // <input type="text" id="user" class="form_input" />
+          select#department.selectOpt(name='department') 
+            option(value='Designing') Design
+            option(value='Analysis') Analysis
+            option(value='Development', selected) Development
+            option(value='Testing') Testing
+            option(value='Maintainance') Maintainance
+        .form_data
+          label.form_label(for='date') Submit Date
+          input#date.form_input(type='date')
+        .form_data
+          label.form_label(for='desc') Description
+          textarea#desc.form_input(name='desc', cols='25', rows='5')
+        .form_data.submit_container
+          button.submit_btn Submit
+script.
+  const scrollableContainer = document.getElementById(
+  'scrollableContainer'
+  );
+  const content = document.getElementById('manageContent');
+  let isDragging = false;
+  scrollableContainer.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  const startX = e.pageX - scrollableContainer.offsetLeft;
+  const startY = e.pageY - scrollableContainer.offsetTop;
+  const scrollLeft = scrollableContainer.scrollLeft;
+  const scrollTop = scrollableContainer.scrollTop;
+  document.addEventListener('mousemove', (e) => {
+  if (isDragging) {
+  const x = e.pageX - scrollableContainer.offsetLeft;
+  const y = e.pageY - scrollableContainer.offsetTop;
+  const deltaX = x - startX;
+  const deltaY = y - startY;
+  scrollableContainer.scrollLeft = scrollLeft - deltaX;
+  scrollableContainer.scrollTop = scrollTop - deltaY;
+  }
+  });
+  document.addEventListener('mouseup', () => {
+  isDragging = false;
+  document.removeEventListener('mousemove', null);
+  document.removeEventListener('mouseup', null);
+  });
+  });
+  const task_card = document.querySelectorAll('.task__tohover');
+  task_card.forEach((el) => {
+  el.addEventListener('mouseenter', function (e) {
+  // console.log(e.target);
+  const parentNode = el.parentNode;
+  parentNode.querySelector('.hidden').classList.remove('hidden');
+  el.style.boxShadow = '0 0 5px rgba(0,0,0,0.5)';
+  parentNode.addEventListener('mouseleave', function (e) {
+  parentNode.querySelector('.task__hover').classList.add('hidden');
+  el.style.boxShadow = 'none';
+  });
+  });
+  });
+  const createbutton = document.querySelector('.create_btn');
+  const newTaskContainer = document.querySelector('.new_task_data');
+  createbutton.addEventListener('click', () => {
+  newTaskContainer.classList.remove('hidden');
+  });
+script(src='/scripts/sidebarScript.js')
+script(src="/scripts/bundle.js")
+

@@ -1,0 +1,107 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  title #{title}
+  link(href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css', rel='stylesheet')
+  link(rel='stylesheet', type='text/css', href='/css/style.css')
+.sidebar
+  a.logo(href='#')
+    i.bx.bxl-product-hunt
+    .logo_name PMT
+  ul.side_menu
+    li
+      a(href='/profile')
+        i.bx.bxs-user
+        | Profile
+    li
+      a(href='/dashboard')
+        i.bx.bxs-dashboard
+        | Dashboard
+    if user.role == 'manager'
+      li
+        a(href='/projectmanagement')
+          i.bx.bx-shape-square
+          | Project Management
+    if user.role == 'manager'
+      li
+        a(href='#')
+          i.bx.bxs-analyse
+          | Project Analysis
+    if user.role == 'manager'
+      li.active
+        a(href='/userManagement')
+          i.bx.bxs-user-rectangle
+          | User Management
+    if user.role == 'manager'
+      li
+        a(href='/tasks')
+          i.bx.bx-task
+          | Projects
+    else
+      li
+        a(href='/tasks')
+          i.bx.bx-task
+          | Tasks
+    li
+      a(href='#')
+        i.bx.bxs-conversation
+        | Discussion
+    li
+      a(href='/support')
+        i.bx.bx-support
+        | Support
+    li
+      a.logout(href='/logout')
+        i.bx.bx-log-out-circle
+        | Logout
+#nav.content
+  nav
+    i.bx.bx-menu.left
+    h3.pro_head Project Management Tool
+    .right
+      h3.user_name=user.name
+      a.profile(href='#')
+        img(src=`/images/users/${user.photo}`)
+  main
+main.main
+  .profileClass
+    h1.profile__heading Employee Profile
+    form.form__profile
+      .form_data_dp
+        img#profile__data_dp.form_user-profile(src=`/images/users/${emp.photo}`)
+      .form_data
+        label.form_label(for='name') Name
+        input#name.form_input(type='text', value= emp.name,readonly)
+      .form_data
+        label.form_label(for='role') Role
+        input#role.form_input(type='text', value= emp.role, readonly)
+      .form_data
+        label.form_label(for='depart') Department
+        input#depart.form_input(type='text', value= emp.department,readonly)
+      .form_data
+        label.form_label(for='email') Email
+        input#email.form_input(type='text', value= emp.email,readonly)
+      .form_data
+        label.form_label(for='mobile') Mobile
+        input#mobile.form_input(type='text', value= emp.mobile,readonly)
+      .form_data
+        label.form_label(for='skills') Skills
+        input#skills.form_input(type='text', value= emp.skills.join(', '))
+      script.
+        const ips = document.getElementById('skills');
+        //- console.log(ips);
+        function adjustWidth(input) {
+        //- console.log('got into fn');
+        //- console.log(input);
+        //- console.log(input.value);
+        //- console.log(input.value.length);
+        if(!input.value) 
+          input.style.width = 19 + 'ch';
+        else
+          input.style.width = input.value.length + 'ch';
+        }
+        adjustWidth(document.getElementById('skills'));
+        // ips.forEach((el) => adjustWidth(el));
+script(src='/scripts/sidebarScript.js')
+script(src="/scripts/bundle.js")

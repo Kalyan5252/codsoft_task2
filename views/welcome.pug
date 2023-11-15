@@ -1,0 +1,21 @@
+extends baseEmail
+
+block content
+  p Hi #{firstName},
+  p Welcome to PMT,
+  p Thanks for joining us, so make sure to update your Profile..
+  p Your Credentials
+  p= `Email: ${name}`
+  p= `Password: ${pass}`
+
+  table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+    tbody
+      tr
+        td(align='left')
+          table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+            tbody
+              tr
+                td
+                  a(href=`${url}`, target='_blank') update profie
+  p If you need any help with our services, please don't hesitate to contact me!
+  p - Mr.K, CEO

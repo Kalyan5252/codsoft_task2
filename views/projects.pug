@@ -1,0 +1,167 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  title #{title}
+  link(href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css', rel='stylesheet')
+  link(rel='stylesheet', type='text/css', href='/css/styleMail.css')
+.sidebar
+  a.logo(href='#')
+    i.bx.bxl-product-hunt
+    .logo_name PMT
+  ul.side_menu
+    li
+      a(href='/profile')
+        i.bx.bxs-user
+        | Profile
+    li
+      a(href='/dashboard')
+        i.bx.bxs-dashboard
+        | Dashboard
+    if user.role == 'manager'
+      li
+        a(href='/projectmanagement')
+          i.bx.bx-shape-square
+          | Project Management
+    if user.role == 'manager'
+      li
+        a(href='#')
+          i.bx.bxs-analyse
+          | Project Analysis
+    if user.role == 'manager'
+      li
+        a(href='/userManagement')
+          i.bx.bxs-user-rectangle
+          | User Management
+    if user.role == 'manager'
+      li.active
+        a(href='#')
+          i.bx.bx-task
+          | Projects
+    else
+      li.active
+        a(href='/tasks')
+          i.bx.bx-task
+          | Tasks
+    li
+      a(href='#')
+        i.bx.bxs-conversation
+        | Discussion
+    li
+      a(href='/support')
+        i.bx.bx-support
+        | Support
+    li
+      a.logout(href='/logout')
+        i.bx.bx-log-out-circle
+        | Logout
+
+#nav.content
+  nav
+    i.bx.bx-menu.left
+    h3.pro_head Project Management Tool
+    .right
+      h3.user_name= user.name
+      a.profile(href='#')
+        img(src=`/images/users/${user.photo}`)
+main
+  .detailContainer
+    .taskListManage
+      h2.primary_headind
+        | Projects
+        hr
+      for project in userdata.projects
+        .task__card.ongoing.project__card(data-project-id = `${project.id}`)
+          h3.task_card_detail
+            | Project Name: 
+            span= project.name
+          h3.task_card_detail
+            | Submit Date: 
+            span= `${new Date(project.date).getDate()}/${new Date(project.date).getMonth()+1}/${new Date(project.date).getFullYear()}`
+        //- .task__status
+      //- .task__card.fail
+      //-   h3.task_card_detail
+      //-     | Project Name: 
+      //-     span  TSound
+      //-   h3.task_card_detail
+      //-     | Task Name: 
+      //-     span UI Development
+      //-   h3.task_card_detail
+      //-     | Submit Date: 
+      //-     span 15/11/2023
+      //-   .task__status
+      //- .task__card.ongoing
+      //-   h3.task_card_detail
+      //-     | Project Name: 
+      //-     span  TSound
+      //-   h3.task_card_detail
+      //-     | Task Name: 
+      //-     span UI Development
+      //-   h3.task_card_detail
+      //-     | Submit Date: 
+      //-     span 15/11/2023
+      //-   .task__status
+      //- .task__card.ongoing
+      //-   h3.task_card_detail
+      //-     | Project Name: 
+      //-     span  TSound
+      //-   h3.task_card_detail
+      //-     | Task Name: 
+      //-     span UI Development
+      //-   h3.task_card_detail
+      //-     | Submit Date: 
+      //-     span 15/11/2023
+      //-   .task__status
+      //- .task__card.fail
+      //-   h3.task_card_detail
+      //-     | Project Name: 
+      //-     span  TSound
+      //-   h3.task_card_detail
+      //-     | Task Name: 
+      //-     span UI Development
+      //-   h3.task_card_detail
+      //-     | Submit Date: 
+      //-     span 15/11/2023
+      //-   .task__status
+      //- .task__card.ongoing
+      //-   h3.task_card_detail
+      //-     | Project Name: 
+      //-     span  TSound
+      //-   h3.task_card_detail
+      //-     | Task Name: 
+      //-     span UI Development
+      //-   h3.task_card_detail
+      //-     | Submit Date: 
+      //-     span 15/11/2023
+      //-   .task__status
+    .display_detail
+      h2.primary_headind
+        | Detail
+        hr
+      if project
+        .detail_data
+          label.detail_label(for='name') Project Name:
+          label.detail_info= project.name
+        .detail_data
+          label.detail_label(for='name') Total Tasks:
+          label.detail_info= project.tasks.length
+        //- .detail_data
+        //-   label.detail_label(for='name') Department:
+        //-   label.detail_info= project.department
+        .detail_data
+          label.detail_label(for='name') Date:
+          label.detail_info= `${new Date(project.date).getDate()}/${new Date(project.date).getMonth()+1}/${new Date(project.date).getFullYear()}`
+        .detail_data
+          label.detail_label(for='name') status:
+          label.detail_info= project.status
+        .detail_data
+          label.detail_label(for='name') Description:
+          label.detail_info= project.description
+        if project.status == "In Progress"
+          button.user_submit.user_psubmit(data-project-id = `${project.id}`) Submit Project  
+      else  
+        h2 Select any Project to get detail
+
+script(src='/scripts/sidebarScript.js')
+script(src="/scripts/bundle.js")
+

@@ -1,0 +1,220 @@
+include card_mixin
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  title #{title}
+  link(href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css', rel='stylesheet')
+  link(rel='stylesheet', type='text/css', href='/css/style.css')
+.sidebar
+  a.logo(href='#')
+    i.bx.bxl-product-hunt
+    .logo_name PMT
+  ul.side_menu
+    li
+      a(href='/profile')
+        i.bx.bxs-user
+        | Profile
+    li.active
+      a(href='/dashboard')
+        i.bx.bxs-dashboard
+        | Dashboard
+    if user.role == 'manager'
+      li
+        a(href='/projectmanagement')
+          i.bx.bx-shape-square
+          | Project Management
+    if user.role == 'manager'
+      li
+        a(href='#')
+          i.bx.bxs-analyse
+          | Project Analysis
+    if user.role == 'manager'
+      li
+        a(href='#')
+          i.bx.bxs-user-rectangle
+          | User Management
+    if user.role == 'manager'
+      li
+        a(href='/tasks')
+          i.bx.bx-task
+          | Projects
+    else
+      li
+        a(href='/tasks')
+          i.bx.bx-task
+          | Tasks
+    li
+      a(href='#')
+        i.bx.bxs-conversation
+        | Discussion
+    li
+      a(href='/support')
+        i.bx.bx-support
+        | Support
+    li
+      a.logout(href='#')
+        i.bx.bx-log-out-circle
+        | Logout
+#nav.content
+  nav
+    i.bx.bx-menu.left
+    h3.pro_head Project Management Tool
+    .right
+      h3.user_name=user.name
+      a.profile(href='#')
+        img(src=`/images/users/${user.photo}`)
+  main
+main.main
+  .dashboardClass
+    .dh_cards.user__tasks-in
+      //- h4.card__title
+      //-   | Tasks 
+      //-   br
+      //-   |  Inprogress 
+      //-   hr
+      if user.role == 'employee'
+        h4.card__title
+          | Tasks 
+          br
+          |  Inprogress 
+          hr
+      else
+        h4.card__title
+          | Projects 
+          br
+          |  Inprogress 
+          hr
+      .tasks__list
+        if user.role == 'employee'
+          for task in tasks
+            if task.status != 'Completed'
+              +taskCard(task)
+        else  
+          for project in projects
+            if project.status != 'Completed'
+              +projectCard(project)
+        //- .task__card.fail
+        //-   h3.task_card_detail
+        //-     | Project Name: 
+        //-     span  TSound
+        //-   h3.task_card_detail
+        //-     | Task Name:  
+        //-     span UI Development
+        //-   h3.task_card_detail
+        //-     | Submit Date:  
+        //-     span 15/11/2023
+        //-   .task__status
+        //- .task__card.ongoing
+        //-   h3.task_card_detail
+        //-     | Project Name: 
+        //-     span  TSound
+        //-   h3.task_card_detail
+        //-     | Task Name:  
+        //-     span UI Development
+        //-   h3.task_card_detail
+        //-     | Submit Date:  
+        //-     span 15/11/2023
+        //-   .task__status
+        //- .task__card.worked.ongoing
+        //-   h3.task_card_detail
+        //-     | Project Name: 
+        //-     span  TSound
+        //-   h3.task_card_detail
+        //-     | Task Name:  
+        //-     span UI Development
+        //-   h3.task_card_detail
+        //-     | Submit Date:  
+        //-     span 15/11/2023
+        //-   .task__status
+        //- .task__card.ongoing
+        //-   h3.task_card_detail
+        //-     | Project Name: 
+        //-     span  TSound
+        //-   h3.task_card_detail
+        //-     | Task Name:  
+        //-     span UI Development
+        //-   h3.task_card_detail
+        //-     | Submit Date:  
+        //-     span 15/11/2023
+        //-   .task__status
+        //- .task__card
+        //-   h3.task_card_detail
+        //-     | Project Name: 
+        //-     span  TSound
+        //-   h3.task_card_detail
+        //-     | Task Name:  
+        //-     span UI Development
+        //-   h3.task_card_detail
+        //-     | Submit Date:  
+        //-     span 15/11/2023
+        //-   .task__status
+    .dh_cards.user__tasks_all
+      if user.role == 'employee'
+        h4.card__title
+          | All Tasks 
+          hr
+      else
+        h4.card__title
+          | All Projects 
+          hr
+      .tasks__list
+        //- for task in tasks
+        //-   +alltasks(task)
+        if user.role == 'employee'
+          for task in tasks
+             +alltasks(task)
+        else  
+          for project in projects
+            +allprojects(project)
+
+        //- .task__card.success
+        //-   h3.task_card_detail
+        //-     | Project Name: 
+        //-     span  TSound
+        //-   h3.task_card_detail
+        //-     | Task Name:  
+        //-     span UI Development
+        //-   h3.task_card_detail
+        //-     | Submit Date:  
+        //-     span 15/11/2023
+        //- .task__card.ongoing
+        //-   h3.task_card_detail
+        //-     | Project Name: 
+        //-     span  TSound
+        //-   h3.task_card_detail
+        //-     | Task Name:  
+        //-     span UI Development
+        //-   h3.task_card_detail
+        //-     | Submit Date:  
+        //-     span 15/11/2023
+    .user__tasks_an
+      .user__an.user__tasks_an1
+        if user.role == 'employee'
+          h4.card__title= `${user.role=='manager'?"Projects":"Tasks"} Taken`
+            hr
+          h2.card__info= `${tasks.length}`
+        else  
+          h4.card__title= `${user.role=='manager'?"Projects":"Tasks"} Taken`
+            hr
+          h2.card__info= `${projects.length}`
+      .user__an.user__tasks_an2
+        h4.card__title= `${user.role=='manager'?"Projects":"Tasks"} Completed`
+          hr
+        -let x = 0;
+        if user.role == 'employee'
+          - tasks.forEach(function(el){  if(el.status === "Completed") x++; })
+          h2.card__info= x
+        else
+          - projects.forEach(function(el){  if(el.status === "Completed") x++; })
+          h2.card__info= x
+      .user__an.user__tasks_an3
+        h4.card__title= `${user.role=='manager'?"Projects":"Tasks"} Incomplete`
+          hr
+        if user.role == 'employee'
+          h2.card__info= `${tasks.length}` - x
+        else 
+          h2.card__info= `${projects.length}` - x
+script(src='/scripts/sidebarScript.js')
+script(src="/scripts/bundle.js")
+

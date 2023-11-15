@@ -1,0 +1,113 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  title User Management
+  link(href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css', rel='stylesheet')
+  link(rel='stylesheet', type='text/css', href='/css/style.css')
+.sidebar
+  a.logo(href='#')
+    i.bx.bxl-product-hunt
+    .logo_name PMT
+  ul.side_menu
+    li
+      a(href='/profile')
+        i.bx.bxs-user
+        | Profile
+    li
+      a(href='/dashboard')
+        i.bx.bxs-dashboard
+        | Dashboard
+    if user.role == 'manager'
+      li
+        a(href='/projectmanagement')
+          i.bx.bx-shape-square
+          | Project Management
+    if user.role == 'manager'
+      li
+        a(href='#')
+          i.bx.bxs-analyse
+          | Project Analysis
+    if user.role == 'manager'
+      li.active
+        a(href='/userManagement')
+          i.bx.bxs-user-rectangle
+          | User Management
+    if user.role == 'manager'
+      li
+        a(href='/tasks')
+          i.bx.bx-task
+          | Projects
+    else
+      li
+        a(href='/tasks')
+          i.bx.bx-task
+          | Tasks
+    li
+      a(href='#')
+        i.bx.bxs-conversation
+        | Discussion
+    li
+      a(href='/support')
+        i.bx.bx-support
+        | Support
+    li
+      a.logout(href='/logout')
+        i.bx.bx-log-out-circle
+        | Logout
+#nav.content
+  nav
+    i.bx.bx-menu.left
+    h3.pro_head Project Management Tool
+    .right
+      h3.user_name= user.name
+      a.profile(href='#')
+        img(src=`/images/users/${user.photo}`)
+main
+  .userManagement
+    h2.primary_headind Employee Management
+    a.create_user(href='/createAccount') Create Employee Account
+    .userContainer
+      for usr in users
+        .user_data.usermng_card(data-user-id = `${usr.id}`)
+          img#profile__data_dp.form_user-profile(src=`/images/users/${usr.photo}`)
+          h3.user_name
+            | Name: 
+            span= usr.name
+          h3.user_depart
+            | Dep: 
+            span= usr.department
+      //- .user_data
+      //-   img#profile__data_dp.form_user-profile(src='pic.jpg')
+      //-   h3.user_name
+      //-     | Name: 
+      //-     span Sunny
+      //-   h3.user_depart
+      //-     | Dep: 
+      //-     span Testing
+      //- .user_data
+      //-   img#profile__data_dp.form_user-profile(src='pic.jpg')
+      //-   h3.user_name
+      //-     | Name: 
+      //-     span Sunny
+      //-   h3.user_depart
+      //-     | Dep: 
+      //-     span Testing
+      //- .user_data
+      //-   img#profile__data_dp.form_user-profile(src='pic.jpg')
+      //-   h3.user_name
+      //-     | Name: 
+      //-     span Sunny
+      //-   h3.user_depart
+      //-     | Dep: 
+      //-     span Testing
+      //- .user_data
+      //-   img#profile__data_dp.form_user-profile(src='pic.jpg')
+      //-   h3.user_name
+      //-     | Name: 
+      //-     span Sunny
+      //-   h3.user_depart
+      //-     | Dep: 
+      //-     span Testing
+script(src='/scripts/sidebarScript.js')
+script(src="/scripts/bundle.js")
